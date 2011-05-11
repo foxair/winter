@@ -1,0 +1,8 @@
+import ${import_common}.orm.mybatis.BaseEntityDao;
+import ${import_common}.orm.mybatis.BaseEntity;
+import org.springframework.stereotype.Repository;
+import java.util.*;
+import ${import_common}.orm.mybatis.BaseEntity;
+import ${import_common}.service.Manager;
+import ${import_common}.orm.mybatis.EntityDao;
+import ${import_common}.service.BaseManager;

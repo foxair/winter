@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+	default-autowire="byName" default-lazy-init="false">
+	
+	<!-- =================================================================================== -->
+	<!-- ========							安全管理模块								======== -->
+	<!-- =================================================================================== -->
+	
+	<!--
+	属性				是否需要？	默认值		描述
+	name			是	 					与事务属性关联的方法名。通配符（*）可以用来指定一批关联到相同的事务属性的方法。 如：'get*'、'handle*'、'on*Event'等等。
+	propagation		不			REQUIRED	事务传播行为
+	isolation		不			DEFAULT		事务隔离级别
+	timeout			不			-1			事务超时的时间（以秒为单位）
+	read-only		不			false		事务是否只读？
+	rollback-for	不	 					将被触发进行回滚的 Exception(s)；以逗号分开。 如：'com.foo.MyBusinessException,ServletException'
+	no-rollback-for	不	 					不 被触发进行回滚的 Exception(s)；以逗号分开。 如：'com.foo.MyBusinessException
+	-->
+	
+	<!-- 
+	第一个 *		—— 通配 任意返回值类型
+	第二个 *		—— 通配 包com.gm.security.service下的任意class
+	第三个 *		—— 通配 包com.gm.security.service下的任意class的任意方法
+	第四个 ..	—— 通配 方法可以有0个或多个参数
+	-->
+	<aop:config>
+		<aop:advisor pointcut="execution(* com.gm.security.service.*.*(..))" advice-ref="authorizeTxAdvice" />
+	</aop:config>
+
+	<tx:advice id="authorizeTxAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="load*" read-only="true" />
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="query*" read-only="true" />
+			<tx:method name="count*" read-only="true" />
+			<tx:method name="*" read-only="false" />
+			<tx:method name="*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- 授权验证 -->
+	<!--<bean id="authorizeValidateAdvice" class="com.gm.common.interceptor.Authorizevalidateadvice"></bean>-->
+	<!-- 拦截接口方法，计算耗时 -->
+	<!--
+	<bean id="simpleProfiler" class="com.gm.common.interceptor.SimpleProfiler"></bean>
+	<aop:config>
+		<aop:aspect id="simpleProfilerAdvisor" ref="simpleProfiler">
+			<aop:pointcut id="executeMethod" expression="execution(* com.gm..*Service.*(..))" />
+			<aop:around pointcut-ref="executeMethod" method="profile" />
+		</aop:aspect>
+	</aop:config>
+	-->
+	
+
+	<!-- 启用以下包中,Spring注释的Bean -->
+	<context:component-scan base-package="com.gm.security.dao" />
+	<context:component-scan base-package="com.gm.security.service" />
+	<context:component-scan base-package="com.gm.security.mvc.controller" />
+</beans>

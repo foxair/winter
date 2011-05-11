@@ -1,0 +1,24 @@
+{
+	"k1" : "v1",
+	"k2" : ["Fri Nov 26 14:50:26 CST 2010", {
+		"user" : {
+			"userName" : "UserName111",
+			"userRoles" : [{
+				"userInfo" : null,
+				"roleId" : null,
+				"userId" : 111,
+				"userRoleId" : null
+			}],
+			"userId" : null,
+			"loginAccount" : null,
+			"firstName" : null,
+			"lastName" : null,
+			"loginPwd" : null,
+			"loginEmail" : null,
+			"userType" : null,
+			"registerTimeString" : null,
+			"registerTime" : null,
+			"userStatus" : null
+		}
+	}]
+}

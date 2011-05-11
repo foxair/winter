@@ -1,0 +1,35 @@
+.test {
+	padding-top: 25px;
+	border: 5px solid #aaa;
+	.
+	formPanel
+	{
+	padding-top
+	:
+	10px;
+}
+
+
+
+
+.formPanel dl {
+	display: block;
+	height: 25px;
+	line-height: 25px;
+	clear: both;
+	width: 100%;
+}
+
+.formPanel dt {
+	min-width: 100px;
+	clear: right;
+	float: left;
+	text-align: right;
+}
+
+.formPanel dd {
+	float: left;
+	padding-left: 10px;
+	
+}
+}

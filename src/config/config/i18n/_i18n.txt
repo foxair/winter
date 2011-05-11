@@ -1,0 +1,96 @@
+##执行native2ascii生成 
+##生成属性文件 native2ascii -encoding utf-8 _i18n.txt i18nMsg_zh_CN.properties
+##反向生成编辑 native2ascii -reverse -encoding utf-8 i18nMsg_zh_CN.properties _i18n.txt
+
+################################## common ######################################
+gmf.common.select=请选择
+gmf.common.select.query=请选择查询方式
+gmf.common.username=用户名
+gmf.common.department=部门名称
+gmf.common.mobile=移动电话
+gmf.common.email=邮箱
+gmf.common.state=状态
+gmf.common.operation=操作
+
+
+# the current position
+gmf.common.all.role=所有角色
+gmf.common.configInfo=配置信息
+gmf.common.current.position = 当前位置
+gmf.common.button.add = 添加
+gmf.common.button.edit = 编辑
+gmf.common.button.delete=删除
+gmf.common.button.search=查询
+gmf.common.button.save=保存
+gmf.common.perPage=每页
+gmf.common.item=条
+gmf.common.role.name=角色名称
+gmf.common.hideleft=隐藏左侧菜单
+gmf.common.openleft=展开左侧菜单
+gmf.common.exportAccount.button=导出
+gmf.common.importAccount.button=导入
+gmf.common.account=帐号
+gmf.common.noContain=不能含有
+gmf.common.specialCharacter=特殊字符
+gmf.common.yes=是
+gmf.common.no=否
+gmf.common.manager=管理员
+gmf.common.telephone=电话
+gmf.common.fax=传真
+gmf.common.note=备注
+gmf.common.validDate=有效期
+gmf.common.month=月
+gmf.common.menu=菜单
+gmf.common.isNonLoseInteger=为非负整数
+gmf.common.notifyType=通知类型
+gmf.common.multiSelect=可多选
+gmf.common.mail=邮件
+gmf.common.authenticateWay=认证方式
+gmf.common.bindInfo=绑定信息
+gmf.common.bindType=绑定类型
+gmf.common.add=增加
+gmf.common.extendInfo=扩展信息
+gmf.common.userNo=员工编号
+gmf.common.birthday=生日
+gmf.common.previous=上一步
+gmf.common.back=返回
+gmf.common.submit=提交
+gmf.common.reset=重置
+gmf.common.next=下一步
+gmf.common.user=用户
+gmf.common.createMan=创建人
+gmf.common.createDate=创建时间
+gmf.common.lastLoginDate=最后登陆时间
+gmf.common.passDiffer=密码和确认密码不一致
+gmf.common.repeat=重复
+gmf.common.copy=复制
+gmf.common.organization.tree=组织机构树
+gmf.common.confirm=确定
+gmf.common.role.tree=角色树
+gmf.common.cancel=取消
+gmf.common.parent=上级
+gmf.common.type=类型
+gmf.common.usergroup=用户组
+gmf.common.modify=修改
+gmf.common.system=系统
+gmf.sort.is.integer=排序号应为非负整数
+gmf.name=名称
+gmf.common.username=用户名
+gmf.common.duty=职 务
+gmf.common.selected=选择
+gmf.common.apply=应用
+gmf.common.role = 角色
+gmf.common.clear=清除
+gmf.common.condition=条件
+gmf.common.privilege=权限
+gmf.common.name=姓名
+gmf.common.organization=组织机构
+gmf.commom.slave=隶属
+gmf.common.colon=：
+
+gmf.common.import=导入
+gmf.import.tmpl.download=下载导入模板
+gmf.import.file.select=选择导入文件
+gmf.import.err.title=提示：下列数据不合规，请修改后重新导入
+gmf.import.err.export=导出错误数据
+gmf.import.err.reason=原因

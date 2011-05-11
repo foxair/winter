@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gm.security.model.PrivilegeInfo">
+	<!-- open cache -->
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+	<resultMap id="RM.PrivilegeInfo" type="com.gm.security.model.PrivilegeInfo">
+        <result property="privilegeId" column="privilege_id"/>
+        <result property="privilegeName" column="privilege_name"/>
+        <result property="privilegeValue" column="privilege_value"/>
+        <result property="accessType" column="access_type"/>
+        <result property="description" column="description"/>
+        <result property="note" column="note"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		privilege_id,privilege_name,privilege_value,access_type,description,note
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="privilegeId">
+    <![CDATA[
+        INSERT INTO privilege_info (
+        	privilege_id ,
+        	privilege_name ,
+        	privilege_value ,
+        	access_type ,
+        	description ,
+        	note 
+        ) VALUES (
+        	#{privilegeId} ,
+        	#{privilegeName} ,
+        	#{privilegeValue} ,
+        	#{accessType} ,
+        	#{description} ,
+        	#{note} 
+        )
+    ]]>
+
+		<!--
+	    	<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="privilegeId">
+				SELECT LAST_INSERT_ID()
+	        </selectKey>
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE privilege_info SET
+	        privilege_name = #{privilegeName} ,
+	        privilege_value = #{privilegeValue} ,
+	        access_type = #{accessType} ,
+	        description = #{description} ,
+	        note = #{note} 
+        WHERE 
+	        privilege_id = #{privilegeId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM privilege_info WHERE
+        privilege_id = #{id} 
+    ]]>
+    </delete>
+    
+	<delete id="deleteIds">
+	<![CDATA[
+		DELETE FROM privilege_info WHERE
+        privilege_id
+		 in 
+	]]>
+		<foreach collection="array" item="ids" open="(" separator="," close=")">#{ids}</foreach>
+	</delete>
+    
+    <select id="getById" resultMap="RM.PrivilegeInfo">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM privilege_info 
+	        WHERE 
+		        privilege_id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="count" resultType="long">
+        SELECT count(*) FROM privilege_info 
+		<include refid="where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RM.PrivilegeInfo">
+    	SELECT <include refid="columns" />
+	    FROM privilege_info
+		<include refid="where"/>
+		<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+	
+	<select id="findAll" resultMap="RM.PrivilegeInfo">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM privilege_info 
+	    ]]>
+	    <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+	</select>
+	
+	<select id="find" resultMap="RM.PrivilegeInfo">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM privilege_info 
+	    ]]>
+	    <include refid="where"/>
+	    <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+	</select>
+
+	
+	
+	<sql id="where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用Ognl.isNotEmpty()方法,具体请查看Ognl类 -->
+		<where>	      				
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(privilegeId)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.privilegeId)">${conditions.privilegeId.condition}</if> privilege_id <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.privilegeId)">${conditions.privilegeId.compare.value}</if> #{privilegeId}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(privilegeName)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.privilegeName)">${conditions.privilegeName.condition}</if> privilege_name <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.privilegeName)">${conditions.privilegeName.compare.value}</if> #{privilegeName}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(privilegeValue)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.privilegeValue)">${conditions.privilegeValue.condition}</if> privilege_value <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.privilegeValue)">${conditions.privilegeValue.compare.value}</if> #{privilegeValue}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(accessType)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.accessType)">${conditions.accessType.condition}</if> access_type <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.accessType)">${conditions.accessType.compare.value}</if> #{accessType}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(description)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.description)">${conditions.description.condition}</if> description <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.description)">${conditions.description.compare.value}</if> #{description}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(note)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.note)">${conditions.note.condition}</if> note <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.note)">${conditions.note.compare.value}</if> #{note}
+			</if>
+		</where>
+	</sql>
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gm.security.model.UserInfo">
+	
+	<!-- ==================================================================== -->
+	<!-- =							Manual SQL								= -->
+	<!-- ==================================================================== -->
+	
+	<!-- 通过用户Id查询其角色 -->
+	<select id="findRolesByUserId" parameterType="long" resultMap="RM.RoleInfo">
+		SELECT
+		r.role_info_id, r.role_name, r.super_role_id, r.description, r.note
+		FROM
+		user_info u
+		left join
+		user_role ur on u.user_info_id = ur.user_info_id
+		left join
+		role_info r on r.role_info_id = ur.role_info_id
+		WHERE u.user_info_id = #{id}
+		ORDER BY
+		r.role_info_id desc
+	</select>
+	
+	<!-- 查询所有用户，并包含每个用户的角色信息 -->
+	<select id="findUserWithRoles" resultMap="userRoles">
+		SELECT
+		u.user_info_id, u.login_account, u.user_name, u.first_name, u.last_name, u.login_pwd, u.login_email, u.user_type, u.register_time,
+		u.user_status, r.role_info_id, r.role_name, r.super_role_id, r.description, r.note
+		FROM
+		user_info u
+		left join
+		user_role ur on u.user_info_id = ur.user_info_id
+		left join
+		role_info r on r.role_info_id = ur.role_info_id
+		ORDER BY
+		r.role_info_id desc
+	</select>
+
+	<resultMap id="userRoles" type="com.gm.security.model.UserInfo">
+		<result property="userInfoId" column="user_info_id" />
+		<result property="loginAccount" column="login_account" />
+		<result property="userName" column="user_name" />
+		<result property="firstName" column="first_name" />
+		<result property="lastName" column="last_name" />
+		<result property="loginPwd" column="login_pwd" />
+		<result property="loginEmail" column="login_email" />
+		<result property="userType" column="user_type" />
+		<result property="registerTime" column="register_time" />
+		<result property="userStatus" column="user_status" />
+		<collection property="roles" column="role_info_id" ofType="com.gm.security.model.RoleInfo">
+			<id property="roleInfoId" column="role_info_id" javaType="Long" jdbcType="NUMERIC" />
+	        <result property="roleInfoId" column="role_info_id"/>
+	        <result property="roleName" column="role_name"/>
+	        <result property="superRoleId" column="super_role_id"/>
+	        <result property="description" column="description"/>
+	        <result property="note" column="note"/>
+		</collection>
+	</resultMap>
+
+</mapper>
