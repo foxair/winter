@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.log4j.Logger;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.util.Assert;
@@ -22,13 +21,7 @@ import com.gm.common.utils.PropertyUtils;
 
 public abstract class BaseEntityDao<T extends BaseEntity, PK extends Serializable> extends SqlSessionDaoSupport
 		implements EntityDao<T, PK> {
-	// protected final Log log = LogFactory.getLog(getClass()); //common-logger
-	/**
-	 * @uml.property  name="log"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
-	protected final Logger log = Logger.getLogger(getClass());
-
+	
 	/**
 	 * @uml.property  name="sqlSessionFactory"
 	 * @uml.associationEnd  readOnly="true"
@@ -151,6 +144,16 @@ public abstract class BaseEntityDao<T extends BaseEntity, PK extends Serializabl
 		param.putAll(parameterObject);
 		List<T> list = getSqlSession().selectList(getFindStatement(), param);
 		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	public Page<T> findPage(String findPageStatement, QueryRequest queryRequest) {
+		return pageQuery(getSqlSession(), getStatement(findPageStatement), getCountStatement(), queryRequest);
+	}
+
+	@SuppressWarnings("unchecked")
+	public Page<T> findPage(String findPageStatement, String countStatement, QueryRequest queryRequest) {
+		return pageQuery(getSqlSession(), getStatement(findPageStatement), getStatement(countStatement), queryRequest);
 	}
 
 	@SuppressWarnings("unchecked")

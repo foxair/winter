@@ -26,12 +26,11 @@
 	</mappers>
 	-->
 	
-	
 	<settings>
 		<setting name="defaultExecutorType" value="REUSE"/>
+		<setting name="lazyLoadingEnabled" value="true"/>
 	</settings>
 	
-
 	<!-- 指定数据库分页方言Dialect, 其它方言:OracleDialect,SQLServerDialect,SybaseDialect,DB2Dialect,PostgreSQLDialect,MySQLDialect,DerbyDialect -->
 	<plugins>
 		<plugin interceptor="com.gm.common.orm.mybatis.plugin.OffsetLimitInterceptor">

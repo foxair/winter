@@ -2,6 +2,8 @@ package com.gm.demo.service;
 
 import java.util.List;
 
+import com.gm.common.orm.mybatis.Page;
+import com.gm.common.orm.mybatis.QueryRequest;
 import com.gm.common.service.Manager;
 import com.gm.demo.dao.CustomerDao;
 import com.gm.demo.model.Customer;
@@ -13,6 +15,8 @@ public interface CustomerManager extends Manager<Customer, java.lang.Long> {
 
 	public void saveAll();
 
-	public List<Customer> getCusList();
+	public List<Customer> findCusList();
+
+	public Page<Customer> findCusListPage(QueryRequest<Customer> queryRequest);
 
 }

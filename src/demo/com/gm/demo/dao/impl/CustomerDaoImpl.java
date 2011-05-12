@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.gm.common.orm.mybatis.BaseEntityDao;
+import com.gm.common.orm.mybatis.Page;
+import com.gm.common.orm.mybatis.QueryRequest;
 import com.gm.demo.dao.CustomerDao;
 import com.gm.demo.model.Customer;
 
@@ -27,6 +29,12 @@ public class CustomerDaoImpl extends BaseEntityDao<Customer,java.lang.Long> impl
 	public List<Customer> findCusList() {
 		List<Customer> cusList = (List<Customer>)getSqlSessionTemplate().selectList(getStatement("findCusList"));
 		return cusList;
+	}
+
+	@Override
+	public Page<Customer> findCusListPage(QueryRequest<Customer> queryRequest) {
+		Page<Customer> page = findPage("findCusList", queryRequest);
+		return page;
 	}
 	
 	

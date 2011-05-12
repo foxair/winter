@@ -8,6 +8,9 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 
+import com.gm.common.orm.mybatis.Page;
+import com.gm.common.orm.mybatis.QueryRequest;
+import com.gm.common.orm.mybatis.query.Orders;
 import com.gm.common.test.BaseServiceTestCase;
 import com.gm.demo.model.Contact;
 import com.gm.demo.model.CusContact;
@@ -82,12 +85,28 @@ public class DemoTest extends BaseServiceTestCase {
 		customerManager.saveAll();
 	}
 
-	@Test
+	//@Test
 	public void getCus() {
-		List<Customer> cusList = customerManager.getCusList();
+		List<Customer> cusList = customerManager.findCusList();
 		for (Iterator it = cusList.iterator(); it.hasNext();) {
 			Customer customer = (Customer) it.next();
-			System.out.println(customer.getCusId()+" " + customer.getCusChnName() + " - "+customer.getContacts().size());
+			System.out.println(customer.getCusId() + " " + customer.getCusChnName() + " - "
+					+ customer.getContacts().size());
+		}
+	}
+
+	@Test
+	public void getCusPage() {
+		QueryRequest<Customer> queryRequest = new QueryRequest<Customer>(Customer.class);
+		queryRequest.addOrder(Orders.asc(Customer.CUS_NO));
+		queryRequest.setPageSize(50);
+		Page<Customer> page = customerManager.findCusListPage(queryRequest);
+		List<Customer> cusList = page.getResult();
+		System.out.println(cusList.size());
+		for (Iterator<Customer> it = cusList.iterator(); it.hasNext();) {
+			Customer customer = it.next();
+			System.out.println(customer.getCusId() + " " + customer.getCusChnName() + " - "
+					+ customer.getContacts().size());
 		}
 	}
 }

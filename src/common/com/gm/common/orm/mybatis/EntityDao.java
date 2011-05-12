@@ -67,14 +67,26 @@ public interface EntityDao<T, PK extends Serializable> {
 	
 	/**
 	 * 分页查找
-	 * 
-	 * @param queryRequest
-	 *            分页参数,查询条件,排序条件
+	 * @param queryRequest 分页参数,查询条件,排序条件
 	 * @return
 	 */
 	public Page<T> findPage(QueryRequest queryRequest);
-
-	/** 查询SQL查找持久化此对象 */
-	// public List<T> selectList(final String sql);
+	
+	/**
+	 * 分页查找 使用自定义语句 *非1对1复杂嵌套结ResultMapper无法正常分页
+	 * @param findPageStatement 查询语句
+	 * @param queryRequest 分页参数,查询条件,排序条件
+	 * @return
+	 */
+	public Page<T> findPage(String findPageStatement, QueryRequest queryRequest);
+	
+	/**
+	 * 分页查找 使用自定义语句 和自定义记录数查询语句 *非1对1复杂嵌套结ResultMapper无法正常分页
+	 * @param findPageStatement
+	 * @param countStatement
+	 * @param queryRequest 分页参数,查询条件,排序条件
+	 * @return
+	 */
+	public Page<T> findPage(String findPageStatement, String countStatement, QueryRequest queryRequest);
 
 }

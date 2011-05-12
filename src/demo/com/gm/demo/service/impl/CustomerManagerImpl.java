@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gm.common.orm.mybatis.Page;
+import com.gm.common.orm.mybatis.QueryRequest;
 import com.gm.common.service.BaseManager;
 import com.gm.demo.dao.ContactDao;
 import com.gm.demo.dao.CusContactDao;
@@ -90,9 +92,13 @@ public class CustomerManagerImpl extends BaseManager<Customer, java.lang.Long> i
 	}
 
 	@Override
-	public List<Customer> getCusList() {
+	public List<Customer> findCusList() {
 		return customerDao.findCusList();
-		
+	}
+	
+	@Override
+	public Page<Customer> findCusListPage(QueryRequest<Customer> queryRequest) {
+		return customerDao.findCusListPage(queryRequest);
 	}
 
 }

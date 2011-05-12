@@ -39,7 +39,7 @@ public class DemoController extends BaseMultiActionController {
 	@RequestMapping(value = "/demo/list", method = RequestMethod.GET)
 	public ModelAndView list(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("/demo/list");
-		List<Customer> cusList = customerManager.getCusList();
+		List<Customer> cusList = customerManager.findCusList();
 		mav.addObject("cusList", cusList);
 		return mav;
 	}
