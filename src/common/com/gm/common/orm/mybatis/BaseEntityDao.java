@@ -208,6 +208,13 @@ public abstract class BaseEntityDao<T extends BaseEntity, PK extends Serializabl
 		}
 	}
 
+	/**
+	 * 得到完整的 Sql Mapper Statement 名称
+	 * */
+	public String getStatement(String statement) {
+		return getMybatisMapperNamesapce() + "." + statement;
+	}
+
 	public String getMybatisMapperNamesapce() {
 		throw new ExceptionHandler("Not yet implement");
 	}
