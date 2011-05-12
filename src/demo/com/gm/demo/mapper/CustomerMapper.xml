@@ -17,7 +17,7 @@
 	</select>
 
 	<resultMap id="cusContact" type="com.gm.demo.model.Customer">
-		<result property="cusId" column="cus_id" />
+		<id property="cusId" column="cus_id" />
         <result property="cusNo" column="cus_no" />
         <result property="cusEngName" column="cus_eng_name" />
         <result property="cusChnName" column="cus_chn_name" />

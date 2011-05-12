@@ -35,11 +35,12 @@ public class DemoController extends BaseMultiActionController {
 	private CusContactManager cusContactManager;
 	@Resource
 	private CustomerBizManager customerBizManager;
-	
+
 	@RequestMapping(value = "/demo/list", method = RequestMethod.GET)
 	public ModelAndView list(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("/demo/list");
 		List<Customer> cusList = customerManager.getCusList();
+		mav.addObject("cusList", cusList);
 		return mav;
 	}
 
