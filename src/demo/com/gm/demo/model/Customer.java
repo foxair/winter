@@ -39,6 +39,16 @@ public class Customer extends CustomerBase implements java.io.Serializable {
 		return cusContacts;
 	}
 
+	private List<Contact> contacts;
+
+	public List<Contact> getContacts() {
+		return contacts;
+	}
+
+	public void setContacts(List<Contact> contacts) {
+		this.contacts = contacts;
+	}
+
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("CusId", getCusId())
 				.append("CusNo", getCusNo()).append("CusEngName", getCusEngName())

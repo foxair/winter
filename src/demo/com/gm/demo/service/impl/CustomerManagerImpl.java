@@ -91,7 +91,7 @@ public class CustomerManagerImpl extends BaseManager<Customer, java.lang.Long> i
 
 	@Override
 	public List<Customer> getCusList() {
-		return customerDao.getCusList();
+		return customerDao.findCusList();
 		
 	}
 

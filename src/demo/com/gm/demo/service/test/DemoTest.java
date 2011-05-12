@@ -1,12 +1,13 @@
 package com.gm.demo.service.test;
 
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.junit.Test;
 
-import com.gm.common.context.SpringValidatorHolder;
 import com.gm.common.test.BaseServiceTestCase;
 import com.gm.demo.model.Contact;
 import com.gm.demo.model.CusContact;
@@ -28,7 +29,7 @@ public class DemoTest extends BaseServiceTestCase {
 	private CustomerBizManager customerBizManager;
 
 	//一起保存用户和联系方式
-	@Test
+	//@Test
 	public void saveCustomerWithContactTests() throws Exception {
 		Date now = new Date();
 		//保存Customer
@@ -43,7 +44,6 @@ public class DemoTest extends BaseServiceTestCase {
 		cus.setUpdateTime(now);
 		//SpringValidatorHolder.validate(cus);
 		customerManager.save(cus);
-		
 
 		//保存Contact
 		Contact cnt = new Contact();
@@ -76,14 +76,18 @@ public class DemoTest extends BaseServiceTestCase {
 		cb.setUpdateTime(now);
 		customerBizManager.save(cb);
 	}
-	
+
 	//@Test
-	public void saveAll(){
+	public void saveAll() {
 		customerManager.saveAll();
 	}
-	
-	//@Test
-	public void getCus(){
-		customerManager.getCusList();
+
+	@Test
+	public void getCus() {
+		List<Customer> cusList = customerManager.getCusList();
+		for (Iterator it = cusList.iterator(); it.hasNext();) {
+			Customer customer = (Customer) it.next();
+			System.out.println(customer.getCusId()+" " + customer.getCusChnName() + " - "+customer.getContacts().size());
+		}
 	}
 }

@@ -35,9 +35,16 @@ public class DemoController extends BaseMultiActionController {
 	private CusContactManager cusContactManager;
 	@Resource
 	private CustomerBizManager customerBizManager;
+	
+	@RequestMapping(value = "/demo/list", method = RequestMethod.GET)
+	public ModelAndView list(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView("/demo/list");
+		List<Customer> cusList = customerManager.getCusList();
+		return mav;
+	}
 
 	@RequestMapping(value = "/demo", method = RequestMethod.GET)
-	public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView demo(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("/demo/demo");
 		return mav;
 	}

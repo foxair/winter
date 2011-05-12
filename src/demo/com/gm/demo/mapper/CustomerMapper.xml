@@ -3,8 +3,58 @@
 
 <mapper namespace="com.gm.demo.model.Customer">
 	<!-- ==================================================================== -->
-	<!-- =							Manual SQL								= -->
+	<!-- = 							Manual SQL								= -->
 	<!-- ==================================================================== -->
-	
-	
+
+	<!-- 查询所有用户，并包含每个用户的角色信息 -->
+	<select id="findCusList" resultMap="cusContact">
+		select cus.cus_id,cus.cus_no,cus.cus_eng_name,cus.cus_chn_name,cus.area,cus.address,cus.zipcode,cus.contact_tel,cus.backup_tel1,cus.backup_tel2,cus.fax,cus.cus_eng_intro,cus.cus_chn_intro,cus.website,cus.remark,cus.status,cus.create_by,cus.create_time,cus.update_by,cus.update_time,
+		con.contact_id,con.contact_name,con.gender,con.position,con.mobile,con.work_phone,con.email,con.home_phone,con.qq,con.msn,con.other,con.status,con.create_by,con.create_time,con.update_by,con.update_time
+		from cus$customer cus
+		left join mfg$cus_contact cc on cc.cus_id = cus.cus_id
+		left join mfg$contact con on cc.contact_id = con.contact_id
+		ORDER BY cus.cus_id desc
+	</select>
+
+	<resultMap id="cusContact" type="com.gm.demo.model.Customer">
+		<result property="cusId" column="cus_id" />
+        <result property="cusNo" column="cus_no" />
+        <result property="cusEngName" column="cus_eng_name" />
+        <result property="cusChnName" column="cus_chn_name" />
+        <result property="area" column="area" />
+        <result property="address" column="address" />
+        <result property="zipcode" column="zipcode" />
+        <result property="contactTel" column="contact_tel" />
+        <result property="backupTel1" column="backup_tel1" />
+        <result property="backupTel2" column="backup_tel2" />
+        <result property="fax" column="fax" />
+        <result property="cusEngIntro" column="cus_eng_intro" />
+        <result property="cusChnIntro" column="cus_chn_intro" />
+        <result property="website" column="website" />
+        <result property="remark" column="remark" />
+        <result property="status" column="status" />
+        <result property="createBy" column="create_by" />
+        <result property="createTime" column="create_time" />
+        <result property="updateBy" column="update_by" />
+        <result property="updateTime" column="update_time" />
+		<collection property="contacts" column="contact_id" ofType="com.gm.demo.model.Contact">
+	        <id property="contactId" column="contact_id" javaType="Long" jdbcType="NUMERIC" />
+	        <result property="contactName" column="contact_name" />
+	        <result property="gender" column="gender" />
+	        <result property="position" column="position" />
+	        <result property="mobile" column="mobile" />
+	        <result property="workPhone" column="work_phone" />
+	        <result property="email" column="email" />
+	        <result property="homePhone" column="home_phone" />
+	        <result property="qq" column="qq" />
+	        <result property="msn" column="msn" />
+	        <result property="other" column="other" />
+	        <result property="status" column="status" />
+	        <result property="createBy" column="create_by" />
+	        <result property="createTime" column="create_time" />
+	        <result property="updateBy" column="update_by" />
+	        <result property="updateTime" column="update_time" />
+		</collection>
+	</resultMap>
+
 </mapper>

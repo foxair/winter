@@ -9,6 +9,6 @@ public interface CustomerDao extends EntityDao<Customer, java.lang.Long> {
 
 	public void saveOrUpdate(Customer customer);
 
-	public List<Customer> getCusList();
+	public List<Customer> findCusList();
 
 }

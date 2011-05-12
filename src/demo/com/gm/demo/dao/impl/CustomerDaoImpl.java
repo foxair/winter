@@ -24,9 +24,9 @@ public class CustomerDaoImpl extends BaseEntityDao<Customer,java.lang.Long> impl
 	}
 
 	@Override
-	public List<Customer> getCusList() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Customer> findCusList() {
+		List<Customer> cusList = (List<Customer>)getSqlSessionTemplate().selectList(getStatement("findCusList"));
+		return cusList;
 	}
 	
 	
