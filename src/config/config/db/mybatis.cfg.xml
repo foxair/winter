@@ -20,7 +20,7 @@
 	</environments>
 	-->
 	
-	<!-- 
+	<!--
 	<mappers>
 		<mapper resource="com/gm/security/model/mapper/base/UserInfoBaseMapper.xml" />
 	</mappers>
