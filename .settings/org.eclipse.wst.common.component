@@ -8,9 +8,9 @@
 <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/security"/>
 <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/core"/>
 <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/mail"/>
-<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/codegen"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/demo"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/generator"/>
         <property name="context-root" value="gmc"/>
         <property name="java-output-path" value="/gmc/web/WEB-INF/classes"/>
     </wb-module>
