@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+           
+	<!-- =================================================================================== -->
+	<!-- ========						Spring 主配置								======== -->
+	<!-- =================================================================================== -->
+           
+	<!-- spring context 直接通过 SpringContextHolder.getBean 静态方法取出 Spring ApplicationContext 中的Bean -->
+	<bean id="springContextHolder" class="com.gm.common.context.SpringContextHolder" autowire="byName"></bean>
+
+	<!-- ========================= 读取属性文件 ========================= -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<!-- 数据库连接配置 -->
+				<value>classpath:/config/jdbc/mysql.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- ========================= 载入属性文件 ========================= -->
+	<bean id="propertiesProvider" class="com.gm.common.context.PropertiesProvider" autowire="byName">
+		<property name="locations">
+			<list>
+				<!-- 应用程序配置 -->
+				<value>classpath:/config/app.properties</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- ========================= validate ========================= -->
+	<bean id="resourceBundleLocator" class="com.gm.common.context.MessageSourceResourceBundleLocator">
+		<property name="messageSource" ref="messageSource" />
+	</bean>
+
+	<bean id="messageInterpolator" class="org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator">
+		<constructor-arg ref="resourceBundleLocator"></constructor-arg>
+	</bean>
+
+	<!-- 用于启用Hibernate Validator,并且使用spring MessageSource替换java ResourceBundle -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="messageInterpolator" ref="messageInterpolator" />
+	</bean>
+
+	<bean id="springValidatorHolder" class="com.gm.common.context.SpringValidatorHolder">
+		<property name="validator" ref="validator"></property>
+	</bean>
+
+
+	<!-- ========================= i18n 国际化 ========================= -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" autowire="byName">
+		<property name="basenames">
+			<list>
+				<value>config/i18n/i18nMsg</value>
+				<value>config/i18n/validationMsg</value>
+				<value>config/i18n/exMsg</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- =============== 加载系统基础功能 ================ -->
+	<!-- 启用数据库连接,加载Dao bean -->
+	<import resource="db/db.xml" />
+	
+	<!-- 启用 web mvc,加载Controller Bean -->
+	<import resource="mvc/mvc.xml" />
+	
+	<!-- 启用系统缓存 -->
+	<!--<import resource="cache/app-ehcache.xml"/> -->
+
+
+	<!-- =============== 加载系统业务模块 ================ -->
+	<!-- 加载系统业务模块 - security -->
+	<!-- <import resource="app/security.xml" /> -->
+
+	<!-- 加载系统业务模块 - demo -->
+	<import resource="app/demo.xml" />
+</beans>

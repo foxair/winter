@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gm.security.model.UserInfo">
+	<!-- open cache -->
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+	<resultMap id="RM.UserInfo" type="com.gm.security.model.UserInfo">
+        <result property="userInfoId" column="user_info_id"/>
+        <result property="loginAccount" column="login_account"/>
+        <result property="userName" column="user_name"/>
+        <result property="firstName" column="first_name"/>
+        <result property="lastName" column="last_name"/>
+        <result property="loginPwd" column="login_pwd"/>
+        <result property="loginEmail" column="login_email"/>
+        <result property="userType" column="user_type"/>
+        <result property="registerTime" column="register_time"/>
+        <result property="userStatus" column="user_status"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		user_info_id,login_account,user_name,first_name,last_name,login_pwd,login_email,user_type,register_time,user_status
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="userInfoId">
+    <![CDATA[
+        INSERT INTO user_info (
+        	user_info_id ,
+        	login_account ,
+        	user_name ,
+        	first_name ,
+        	last_name ,
+        	login_pwd ,
+        	login_email ,
+        	user_type ,
+        	register_time ,
+        	user_status 
+        ) VALUES (
+        	#{userInfoId} ,
+        	#{loginAccount} ,
+        	#{userName} ,
+        	#{firstName} ,
+        	#{lastName} ,
+        	#{loginPwd} ,
+        	#{loginEmail} ,
+        	#{userType} ,
+        	#{registerTime} ,
+        	#{userStatus} 
+        )
+    ]]>
+
+		<!--
+	    	<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userInfoId">
+				SELECT LAST_INSERT_ID()
+	        </selectKey>
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE user_info SET
+	        login_account = #{loginAccount} ,
+	        user_name = #{userName} ,
+	        first_name = #{firstName} ,
+	        last_name = #{lastName} ,
+	        login_pwd = #{loginPwd} ,
+	        login_email = #{loginEmail} ,
+	        user_type = #{userType} ,
+	        register_time = #{registerTime} ,
+	        user_status = #{userStatus} 
+        WHERE 
+	        user_info_id = #{userInfoId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM user_info WHERE
+        user_info_id = #{id} 
+    ]]>
+    </delete>
+    
+	<delete id="deleteIds">
+	<![CDATA[
+		DELETE FROM user_info WHERE
+        user_info_id
+		 in 
+	]]>
+		<foreach collection="array" item="ids" open="(" separator="," close=")">#{ids}</foreach>
+	</delete>
+    
+    <select id="getById" resultMap="RM.UserInfo">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM user_info 
+	        WHERE 
+		        user_info_id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="count" resultType="long">
+        SELECT count(*) FROM user_info 
+		<include refid="where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RM.UserInfo">
+    	SELECT <include refid="columns" />
+	    FROM user_info
+		<include refid="where"/>
+		<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+	
+	<select id="findAll" resultMap="RM.UserInfo">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM user_info 
+	    ]]>
+	    <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+	</select>
+	
+	<select id="find" resultMap="RM.UserInfo">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM user_info 
+	    ]]>
+	    <include refid="where"/>
+	    <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+	</select>
+
+    <select id="getByLoginAccount" resultMap="RM.UserInfo" parameterType="java.lang.String">
+	    SELECT <include refid="columns"/>
+	    <![CDATA[
+	        FROM user_info where login_account = #{loginAccount}
+	    ]]>
+    </select>
+	
+	<delete id="deleteByLoginAccount" parameterType="java.lang.String">
+		DELETE
+		<![CDATA[
+		    user_info where login_account = #{loginAccount}
+		]]>
+	</delete>
+	
+	<sql id="where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用Ognl.isNotEmpty()方法,具体请查看Ognl类 -->
+		<where>	      				
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(userInfoId)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.userInfoId)">${conditions.userInfoId.condition}</if> user_info_id <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.userInfoId)">${conditions.userInfoId.compare.value}</if> #{userInfoId}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(loginAccount)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.loginAccount)">${conditions.loginAccount.condition}</if> login_account <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.loginAccount)">${conditions.loginAccount.compare.value}</if> #{loginAccount}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(userName)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.userName)">${conditions.userName.condition}</if> user_name <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.userName)">${conditions.userName.compare.value}</if> #{userName}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(firstName)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.firstName)">${conditions.firstName.condition}</if> first_name <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.firstName)">${conditions.firstName.compare.value}</if> #{firstName}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(lastName)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.lastName)">${conditions.lastName.condition}</if> last_name <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.lastName)">${conditions.lastName.compare.value}</if> #{lastName}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(loginPwd)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.loginPwd)">${conditions.loginPwd.condition}</if> login_pwd <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.loginPwd)">${conditions.loginPwd.compare.value}</if> #{loginPwd}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(loginEmail)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.loginEmail)">${conditions.loginEmail.condition}</if> login_email <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.loginEmail)">${conditions.loginEmail.compare.value}</if> #{loginEmail}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(userType)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.userType)">${conditions.userType.condition}</if> user_type <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.userType)">${conditions.userType.compare.value}</if> #{userType}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(registerTimeBegin)">
+				AND register_time >= #{registerTimeBegin}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(registerTimeEnd)">
+				AND register_time &lt;= #{registerTimeEnd}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(userStatus)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.userStatus)">${conditions.userStatus.condition}</if> user_status <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.userStatus)">${conditions.userStatus.compare.value}</if> #{userStatus}
+			</if>
+		</where>
+	</sql>
+</mapper>

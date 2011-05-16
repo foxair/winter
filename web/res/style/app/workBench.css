@@ -1,0 +1,23 @@
+.wb-header {height:100%;background: url(../../image/app/headerbg.jpg) repeat-x 0px 0px;}
+.wb-footer {height:100%;background: url(../../image/app/footerbg.jpg) repeat-x 0px 0px;}
+.wb-logo {width:200px;float:left;}
+
+/*nav*/
+.nav-drop-menu {float:left; margin:0px 0px 0px 0px;padding:10px 0px 0px 0px; width:700px;}
+.wb-panel-left {border: 0px; width: auto; height: auto; padding: 5px;}
+.wb-nav-list li{margin: 5px;}
+.wb-nav-list li span.num{color:red;} 
+.wb-nav-link {cursor: pointer;}
+
+/*menu*/
+.wb-menu-main {min-width: 100px;}
+
+/*portal*/
+.wb-portal-view {width:100%;overflow: hidden;}
+
+/*表单样式*/
+.formPanel {padding-top: 10px;}
+.formPanel dl{display:block;height:25px;line-height:25px;clear:both;width: 100%;}
+.formPanel dt{min-width:60px;max-width:120px;clear:right;float:left;text-align:right;}
+.formPanel dd{float: left;padding-left: 10px;}
+.formPanel .treePanel{margin: 0px 0px 10px 0px}

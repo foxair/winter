@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gm.security.model.ResourceInfo">
+	<!-- open cache -->
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+	<resultMap id="RM.ResourceInfo" type="com.gm.security.model.ResourceInfo">
+        <result property="resourceId" column="resource_id"/>
+        <result property="resourceName" column="resource_name"/>
+        <result property="superId" column="super_id"/>
+        <result property="resourceType" column="resource_type"/>
+        <result property="loadType" column="load_type"/>
+        <result property="accessType" column="access_type"/>
+        <result property="appName" column="app_name"/>
+        <result property="description" column="description"/>
+        <result property="note" column="note"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		resource_id,resource_name,super_id,resource_type,load_type,access_type,app_name,description,note
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="resourceId">
+    <![CDATA[
+        INSERT INTO resource_info (
+        	resource_id ,
+        	resource_name ,
+        	super_id ,
+        	resource_type ,
+        	load_type ,
+        	access_type ,
+        	app_name ,
+        	description ,
+        	note 
+        ) VALUES (
+        	#{resourceId} ,
+        	#{resourceName} ,
+        	#{superId} ,
+        	#{resourceType} ,
+        	#{loadType} ,
+        	#{accessType} ,
+        	#{appName} ,
+        	#{description} ,
+        	#{note} 
+        )
+    ]]>
+
+		<!--
+	    	<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="resourceId">
+				SELECT LAST_INSERT_ID()
+	        </selectKey>
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE resource_info SET
+	        resource_name = #{resourceName} ,
+	        super_id = #{superId} ,
+	        resource_type = #{resourceType} ,
+	        load_type = #{loadType} ,
+	        access_type = #{accessType} ,
+	        app_name = #{appName} ,
+	        description = #{description} ,
+	        note = #{note} 
+        WHERE 
+	        resource_id = #{resourceId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM resource_info WHERE
+        resource_id = #{id} 
+    ]]>
+    </delete>
+    
+	<delete id="deleteIds">
+	<![CDATA[
+		DELETE FROM resource_info WHERE
+        resource_id
+		 in 
+	]]>
+		<foreach collection="array" item="ids" open="(" separator="," close=")">#{ids}</foreach>
+	</delete>
+    
+    <select id="getById" resultMap="RM.ResourceInfo">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM resource_info 
+	        WHERE 
+		        resource_id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="count" resultType="long">
+        SELECT count(*) FROM resource_info 
+		<include refid="where"/>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RM.ResourceInfo">
+    	SELECT <include refid="columns" />
+	    FROM resource_info
+		<include refid="where"/>
+		<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+	
+	<select id="findAll" resultMap="RM.ResourceInfo">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM resource_info 
+	    ]]>
+	    <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+	</select>
+	
+	<select id="find" resultMap="RM.ResourceInfo">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM resource_info 
+	    ]]>
+	    <include refid="where"/>
+	    <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+	</select>
+
+	
+	
+	<sql id="where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用Ognl.isNotEmpty()方法,具体请查看Ognl类 -->
+		<where>	      				
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(resourceId)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.resourceId)">${conditions.resourceId.condition}</if> resource_id <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.resourceId)">${conditions.resourceId.compare.value}</if> #{resourceId}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(resourceName)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.resourceName)">${conditions.resourceName.condition}</if> resource_name <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.resourceName)">${conditions.resourceName.compare.value}</if> #{resourceName}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(superId)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.superId)">${conditions.superId.condition}</if> super_id <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.superId)">${conditions.superId.compare.value}</if> #{superId}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(resourceType)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.resourceType)">${conditions.resourceType.condition}</if> resource_type <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.resourceType)">${conditions.resourceType.compare.value}</if> #{resourceType}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(loadType)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.loadType)">${conditions.loadType.condition}</if> load_type <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.loadType)">${conditions.loadType.compare.value}</if> #{loadType}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(accessType)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.accessType)">${conditions.accessType.condition}</if> access_type <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.accessType)">${conditions.accessType.compare.value}</if> #{accessType}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(appName)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.appName)">${conditions.appName.condition}</if> app_name <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.appName)">${conditions.appName.compare.value}</if> #{appName}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(description)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.description)">${conditions.description.condition}</if> description <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.description)">${conditions.description.compare.value}</if> #{description}
+			</if>
+			<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(note)">
+				<if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.note)">${conditions.note.condition}</if> note <if test="@com.gm.common.orm.mybatis.Ognl@isNotEmpty(conditions.note)">${conditions.note.compare.value}</if> #{note}
+			</if>
+		</where>
+	</sql>
+</mapper>

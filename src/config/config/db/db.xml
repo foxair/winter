@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd "
+	default-autowire="byName" default-lazy-init="false">
+
+	<!-- =================================================================================== -->
+	<!-- ======== 数据库全局配置 ======== -->
+	<!-- =================================================================================== -->
+
+	<!-- 定义数据源 -->
+	<!-- c3p0数据源 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${jdbc.driverClassName}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+		<property name="initialPoolSize" value="${jdbc.initialPoolSize}"></property>
+		<property name="minPoolSize" value="${jdbc.minPoolSize}"></property>
+		<property name="maxPoolSize" value="${jdbc.maxPoolSize}"></property>
+		<property name="checkoutTimeout" value="${jdbc.checkoutTimeout}"></property>
+		<property name="maxIdleTime" value="${jdbc.maxIdleTime}"></property>
+		<property name="idleConnectionTestPeriod" value="${jdbc.idleConnectionTestPeriod}"></property>
+		<property name="acquireIncrement" value="${jdbc.acquireIncrement}"></property>
+	</bean>
+	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" autowire="byName">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="log4jdbcInterceptor" class="net.sf.log4jdbc.DataSourceSpyInterceptor" />
+
+	<!-- <bean id="dataSourceLog4jdbcAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator"> 
+		<property name="interceptorNames"> <list> <value>log4jdbcInterceptor</value> </list> </property> <property name="beanNames"> 
+		<list> <value>dataSource</value> </list> </property> </bean> -->
+
+	<!-- Proxool 数据源 -->
+	<!-- <bean id="dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource"> <property name="driver" value="${jdbc.driverClassName}" 
+		/> <property name="driverUrl" value="${jdbc.url}"/> <property name="user" value="${jdbc.username}" /> <property name="password" 
+		value="${jdbc.password}" /> <property name="alias" value="${jdbc.alias}" /> <property name="prototypeCount" value="${jdbc.initialPoolSize}" 
+		/> <property name="minimumConnectionCount" value="${jdbc.minPoolSize}" /> <property name="maximumConnectionCount" value="${jdbc.maxPoolSize}" 
+		/> <property name="maximumActiveTime" value="${jdbc.maxActiveTime}"/> <property name="trace" value="${jdbc.trace}" /> <property 
+		name="verbose" value="${jdbc.verbose}" /> <property name="houseKeepingTestSql" value="${jdbc.test}"/> </bean> -->
+
+
+	<import resource="mybatis.db.xml" />
+	<!--<import resource="hibernate.db.xml"/> -->
+
+	<!-- 开启注解事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+</beans>
