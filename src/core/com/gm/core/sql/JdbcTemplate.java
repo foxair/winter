@@ -20,7 +20,6 @@ import com.gm.core.lang.StringUtils;
  * <p>
  * A DataSoure is inside JdbcTemplate
  * </p>
- * 
  */
 public class JdbcTemplate {
 
