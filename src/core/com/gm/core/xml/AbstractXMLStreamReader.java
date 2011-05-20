@@ -38,22 +38,18 @@ abstract class AbstractXMLStreamReader implements XMLStreamReader {
 		int eventType = next();
 		StringBuilder builder = new StringBuilder();
 		while (eventType != XMLStreamConstants.END_ELEMENT) {
-			if (eventType == XMLStreamConstants.CHARACTERS || eventType == XMLStreamConstants.CDATA ||
-					eventType == XMLStreamConstants.SPACE || eventType == XMLStreamConstants.ENTITY_REFERENCE) {
+			if (eventType == XMLStreamConstants.CHARACTERS || eventType == XMLStreamConstants.CDATA
+					|| eventType == XMLStreamConstants.SPACE || eventType == XMLStreamConstants.ENTITY_REFERENCE) {
 				builder.append(getText());
-			}
-			else if (eventType == XMLStreamConstants.PROCESSING_INSTRUCTION ||
-					eventType == XMLStreamConstants.COMMENT) {
+			} else if (eventType == XMLStreamConstants.PROCESSING_INSTRUCTION
+					|| eventType == XMLStreamConstants.COMMENT) {
 				// skipping
-			}
-			else if (eventType == XMLStreamConstants.END_DOCUMENT) {
+			} else if (eventType == XMLStreamConstants.END_DOCUMENT) {
 				throw new XMLStreamException("unexpected end of document when reading element text content",
 						getLocation());
-			}
-			else if (eventType == XMLStreamConstants.START_ELEMENT) {
+			} else if (eventType == XMLStreamConstants.START_ELEMENT) {
 				throw new XMLStreamException("element text content may not contain START_ELEMENT", getLocation());
-			}
-			else {
+			} else {
 				throw new XMLStreamException("Unexpected event type " + eventType, getLocation());
 			}
 			eventType = next();
@@ -77,8 +73,7 @@ abstract class AbstractXMLStreamReader implements XMLStreamReader {
 		int eventType = getEventType();
 		if (eventType == XMLStreamConstants.START_ELEMENT || eventType == XMLStreamConstants.END_ELEMENT) {
 			return getName().getNamespaceURI();
-		}
-		else {
+		} else {
 			throw new IllegalStateException("parser must be on START_ELEMENT or END_ELEMENT state");
 		}
 	}
@@ -90,17 +85,16 @@ abstract class AbstractXMLStreamReader implements XMLStreamReader {
 
 	public boolean hasText() {
 		int eventType = getEventType();
-		return eventType == XMLStreamConstants.SPACE || eventType == XMLStreamConstants.CHARACTERS ||
-				eventType == XMLStreamConstants.COMMENT || eventType == XMLStreamConstants.CDATA ||
-				eventType == XMLStreamConstants.ENTITY_REFERENCE;
+		return eventType == XMLStreamConstants.SPACE || eventType == XMLStreamConstants.CHARACTERS
+				|| eventType == XMLStreamConstants.COMMENT || eventType == XMLStreamConstants.CDATA
+				|| eventType == XMLStreamConstants.ENTITY_REFERENCE;
 	}
 
 	public String getPrefix() {
 		int eventType = getEventType();
 		if (eventType == XMLStreamConstants.START_ELEMENT || eventType == XMLStreamConstants.END_ELEMENT) {
 			return getName().getPrefix();
-		}
-		else {
+		} else {
 			throw new IllegalStateException("parser must be on START_ELEMENT or END_ELEMENT state");
 		}
 	}
@@ -128,9 +122,9 @@ abstract class AbstractXMLStreamReader implements XMLStreamReader {
 
 	public int nextTag() throws XMLStreamException {
 		int eventType = next();
-		while (eventType == XMLStreamConstants.CHARACTERS && isWhiteSpace() ||
-				eventType == XMLStreamConstants.CDATA && isWhiteSpace() || eventType == XMLStreamConstants.SPACE ||
-				eventType == XMLStreamConstants.PROCESSING_INSTRUCTION || eventType == XMLStreamConstants.COMMENT) {
+		while (eventType == XMLStreamConstants.CHARACTERS && isWhiteSpace() || eventType == XMLStreamConstants.CDATA
+				&& isWhiteSpace() || eventType == XMLStreamConstants.SPACE
+				|| eventType == XMLStreamConstants.PROCESSING_INSTRUCTION || eventType == XMLStreamConstants.COMMENT) {
 			eventType = next();
 		}
 		if (eventType != XMLStreamConstants.START_ELEMENT && eventType != XMLStreamConstants.END_ELEMENT) {
@@ -149,8 +143,8 @@ abstract class AbstractXMLStreamReader implements XMLStreamReader {
 	public String getAttributeValue(String namespaceURI, String localName) {
 		for (int i = 0; i < getAttributeCount(); i++) {
 			QName name = getAttributeName(i);
-			if (name.getLocalPart().equals(localName) &&
-					(namespaceURI == null || name.getNamespaceURI().equals(namespaceURI))) {
+			if (name.getLocalPart().equals(localName)
+					&& (namespaceURI == null || name.getNamespaceURI().equals(namespaceURI))) {
 				return getAttributeValue(i);
 			}
 		}
@@ -169,8 +163,7 @@ abstract class AbstractXMLStreamReader implements XMLStreamReader {
 		return getText().toCharArray();
 	}
 
-	public int getTextCharacters(int sourceStart, char[] target, int targetStart, int length)
-			throws XMLStreamException {
+	public int getTextCharacters(int sourceStart, char[] target, int targetStart, int length) throws XMLStreamException {
 		char[] source = getTextCharacters();
 		length = Math.min(length, source.length);
 		System.arraycopy(source, sourceStart, target, targetStart, length);

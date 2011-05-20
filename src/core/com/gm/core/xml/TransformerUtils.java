@@ -67,8 +67,7 @@ public abstract class TransformerUtils {
 		try {
 			// Xalan-specific, but this is the most common XSLT engine in any case
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", String.valueOf(indentAmount));
-		}
-		catch (IllegalArgumentException ignored) {
+		} catch (IllegalArgumentException ignored) {
 		}
 	}
 

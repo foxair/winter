@@ -86,8 +86,7 @@ class StaxEventXMLReader extends AbstractStaxXMLReader {
 			if (event != null && !(event.isStartDocument() || event.isStartElement())) {
 				throw new IllegalStateException("XMLEventReader not at start of document or element");
 			}
-		}
-		catch (XMLStreamException ex) {
+		} catch (XMLStreamException ex) {
 			throw new IllegalStateException("Could not read first element: " + ex.getMessage());
 		}
 
@@ -106,47 +105,47 @@ class StaxEventXMLReader extends AbstractStaxXMLReader {
 				documentStarted = true;
 			}
 			switch (event.getEventType()) {
-				case XMLStreamConstants.START_DOCUMENT:
-					handleStartDocument(event);
-					documentStarted = true;
-					break;
-				case XMLStreamConstants.START_ELEMENT:
-					elementDepth++;
-					handleStartElement(event.asStartElement());
-					break;
-				case XMLStreamConstants.END_ELEMENT:
-					elementDepth--;
-					if (elementDepth >= 0) {
-						handleEndElement(event.asEndElement());
-					}
-					break;
-				case XMLStreamConstants.PROCESSING_INSTRUCTION:
-					handleProcessingInstruction((ProcessingInstruction) event);
-					break;
-				case XMLStreamConstants.CHARACTERS:
-				case XMLStreamConstants.SPACE:
-				case XMLStreamConstants.CDATA:
-					handleCharacters(event.asCharacters());
-					break;
-				case XMLStreamConstants.END_DOCUMENT:
-					handleEndDocument();
-					documentEnded = true;
-					break;
-				case XMLStreamConstants.NOTATION_DECLARATION:
-					handleNotationDeclaration((NotationDeclaration) event);
-					break;
-				case XMLStreamConstants.ENTITY_DECLARATION:
-					handleEntityDeclaration((EntityDeclaration) event);
-					break;
-				case XMLStreamConstants.COMMENT:
-					handleComment((Comment) event);
-					break;
-				case XMLStreamConstants.DTD:
-					handleDtd((DTD) event);
-					break;
-				case XMLStreamConstants.ENTITY_REFERENCE:
-					handleEntityReference((EntityReference) event);
-					break;
+			case XMLStreamConstants.START_DOCUMENT:
+				handleStartDocument(event);
+				documentStarted = true;
+				break;
+			case XMLStreamConstants.START_ELEMENT:
+				elementDepth++;
+				handleStartElement(event.asStartElement());
+				break;
+			case XMLStreamConstants.END_ELEMENT:
+				elementDepth--;
+				if (elementDepth >= 0) {
+					handleEndElement(event.asEndElement());
+				}
+				break;
+			case XMLStreamConstants.PROCESSING_INSTRUCTION:
+				handleProcessingInstruction((ProcessingInstruction) event);
+				break;
+			case XMLStreamConstants.CHARACTERS:
+			case XMLStreamConstants.SPACE:
+			case XMLStreamConstants.CDATA:
+				handleCharacters(event.asCharacters());
+				break;
+			case XMLStreamConstants.END_DOCUMENT:
+				handleEndDocument();
+				documentEnded = true;
+				break;
+			case XMLStreamConstants.NOTATION_DECLARATION:
+				handleNotationDeclaration((NotationDeclaration) event);
+				break;
+			case XMLStreamConstants.ENTITY_DECLARATION:
+				handleEntityDeclaration((EntityDeclaration) event);
+				break;
+			case XMLStreamConstants.COMMENT:
+				handleComment((Comment) event);
+				break;
+			case XMLStreamConstants.DTD:
+				handleDtd((DTD) event);
+				break;
+			case XMLStreamConstants.ENTITY_REFERENCE:
+				handleEntityReference((EntityReference) event);
+				break;
 			}
 		}
 		if (documentStarted && !documentEnded) {
@@ -208,7 +207,7 @@ class StaxEventXMLReader extends AbstractStaxXMLReader {
 					Namespace namespace = (Namespace) i.next();
 					startPrefixMapping(namespace.getPrefix(), namespace.getNamespaceURI());
 				}
-				for (Iterator i = startElement.getAttributes(); i.hasNext();){
+				for (Iterator i = startElement.getAttributes(); i.hasNext();) {
 					Attribute attribute = (Attribute) i.next();
 					QName attributeName = attribute.getName();
 					startPrefixMapping(attributeName.getPrefix(), attributeName.getNamespaceURI());
@@ -216,8 +215,7 @@ class StaxEventXMLReader extends AbstractStaxXMLReader {
 
 				getContentHandler().startElement(qName.getNamespaceURI(), qName.getLocalPart(), toQualifiedName(qName),
 						getAttributes(startElement));
-			}
-			else {
+			} else {
 				getContentHandler().startElement("", "", toQualifiedName(qName), getAttributes(startElement));
 			}
 		}
@@ -249,8 +247,7 @@ class StaxEventXMLReader extends AbstractStaxXMLReader {
 					Namespace namespace = (Namespace) i.next();
 					endPrefixMapping(namespace.getPrefix());
 				}
-			}
-			else {
+			} else {
 				getContentHandler().endElement("", "", toQualifiedName(qName));
 			}
 
@@ -335,8 +332,7 @@ class StaxEventXMLReader extends AbstractStaxXMLReader {
 				String qName;
 				if (StringUtils.hasLength(prefix)) {
 					qName = "xmlns:" + prefix;
-				}
-				else {
+				} else {
 					qName = "xmlns";
 				}
 				attributes.addAttribute("", "", qName, "CDATA", namespaceUri);

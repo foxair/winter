@@ -52,7 +52,7 @@ class XMLEventStreamWriter implements XMLStreamWriter {
 	public XMLEventStreamWriter(XMLEventWriter eventWriter, XMLEventFactory eventFactory) {
 		Assert.notNull(eventWriter, "'eventWriter' must not be null");
 		Assert.notNull(eventFactory, "'eventFactory' must not be null");
-		
+
 		this.eventWriter = eventWriter;
 		this.eventFactory = eventFactory;
 	}

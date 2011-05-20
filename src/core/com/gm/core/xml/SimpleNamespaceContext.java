@@ -48,14 +48,11 @@ public class SimpleNamespaceContext implements NamespaceContext {
 		Assert.notNull(prefix, "prefix is null");
 		if (XMLConstants.XML_NS_PREFIX.equals(prefix)) {
 			return XMLConstants.XML_NS_URI;
-		}
-		else if (XMLConstants.XMLNS_ATTRIBUTE.equals(prefix)) {
+		} else if (XMLConstants.XMLNS_ATTRIBUTE.equals(prefix)) {
 			return XMLConstants.XMLNS_ATTRIBUTE_NS_URI;
-		}
-		else if (XMLConstants.DEFAULT_NS_PREFIX.equals(prefix)) {
+		} else if (XMLConstants.DEFAULT_NS_PREFIX.equals(prefix)) {
 			return defaultNamespaceUri;
-		}
-		else if (prefixToNamespaceUri.containsKey(prefix)) {
+		} else if (prefixToNamespaceUri.containsKey(prefix)) {
 			return prefixToNamespaceUri.get(prefix);
 		}
 		return "";
@@ -101,8 +98,7 @@ public class SimpleNamespaceContext implements NamespaceContext {
 		Assert.notNull(namespaceUri, "No namespaceUri given");
 		if (XMLConstants.DEFAULT_NS_PREFIX.equals(prefix)) {
 			defaultNamespaceUri = namespaceUri;
-		}
-		else {
+		} else {
 			prefixToNamespaceUri.put(prefix, namespaceUri);
 			getPrefixesInternal(namespaceUri).add(prefix);
 		}
@@ -125,14 +121,11 @@ public class SimpleNamespaceContext implements NamespaceContext {
 	private List<String> getPrefixesInternal(String namespaceUri) {
 		if (defaultNamespaceUri.equals(namespaceUri)) {
 			return Collections.singletonList(XMLConstants.DEFAULT_NS_PREFIX);
-		}
-		else if (XMLConstants.XML_NS_URI.equals(namespaceUri)) {
+		} else if (XMLConstants.XML_NS_URI.equals(namespaceUri)) {
 			return Collections.singletonList(XMLConstants.XML_NS_PREFIX);
-		}
-		else if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(namespaceUri)) {
+		} else if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(namespaceUri)) {
 			return Collections.singletonList(XMLConstants.XMLNS_ATTRIBUTE);
-		}
-		else {
+		} else {
 			List<String> list = namespaceUriToPrefixes.get(namespaceUri);
 			if (list == null) {
 				list = new ArrayList<String>();
@@ -150,8 +143,7 @@ public class SimpleNamespaceContext implements NamespaceContext {
 	public void removeBinding(String prefix) {
 		if (XMLConstants.DEFAULT_NS_PREFIX.equals(prefix)) {
 			defaultNamespaceUri = "";
-		}
-		else {
+		} else {
 			String namespaceUri = prefixToNamespaceUri.remove(prefix);
 			List prefixes = getPrefixesInternal(namespaceUri);
 			prefixes.remove(prefix);

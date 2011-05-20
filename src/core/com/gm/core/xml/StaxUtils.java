@@ -45,8 +45,8 @@ import com.gm.core.lang.reflect.ClassUtils;
  */
 public abstract class StaxUtils {
 
-	private static boolean jaxp14Available =
-			ClassUtils.isPresent("javax.xml.transform.stax.StAXSource", StaxUtils.class.getClassLoader());
+	private static boolean jaxp14Available = ClassUtils.isPresent("javax.xml.transform.stax.StAXSource",
+			StaxUtils.class.getClassLoader());
 
 	// Stax Source
 
@@ -72,8 +72,7 @@ public abstract class StaxUtils {
 	public static Source createStaxSource(XMLStreamReader streamReader) {
 		if (jaxp14Available) {
 			return Jaxp14StaxHandler.createStaxSource(streamReader);
-		}
-		else {
+		} else {
 			return createCustomStaxSource(streamReader);
 		}
 	}
@@ -101,8 +100,7 @@ public abstract class StaxUtils {
 	public static Source createStaxSource(XMLEventReader eventReader) throws XMLStreamException {
 		if (jaxp14Available) {
 			return Jaxp14StaxHandler.createStaxSource(eventReader);
-		}
-		else {
+		} else {
 			return createCustomStaxSource(eventReader);
 		}
 	}
@@ -140,8 +138,7 @@ public abstract class StaxUtils {
 	public static Result createStaxResult(XMLStreamWriter streamWriter) {
 		if (jaxp14Available) {
 			return Jaxp14StaxHandler.createStaxResult(streamWriter);
-		}
-		else {
+		} else {
 			return createCustomStaxResult(streamWriter);
 		}
 	}
@@ -169,8 +166,7 @@ public abstract class StaxUtils {
 	public static Result createStaxResult(XMLEventWriter eventWriter) throws XMLStreamException {
 		if (jaxp14Available) {
 			return Jaxp14StaxHandler.createStaxResult(eventWriter);
-		}
-		else {
+		} else {
 			return createCustomStaxResult(eventWriter);
 		}
 	}
@@ -195,11 +191,9 @@ public abstract class StaxUtils {
 	public static XMLStreamReader getXMLStreamReader(Source source) {
 		if (source instanceof StaxSource) {
 			return ((StaxSource) source).getXMLStreamReader();
-		}
-		else if (jaxp14Available) {
+		} else if (jaxp14Available) {
 			return Jaxp14StaxHandler.getXMLStreamReader(source);
-		}
-		else {
+		} else {
 			throw new IllegalArgumentException("Source '" + source + "' is neither StaxSource nor StAXSource");
 		}
 	}
@@ -215,11 +209,9 @@ public abstract class StaxUtils {
 	public static XMLEventReader getXMLEventReader(Source source) {
 		if (source instanceof StaxSource) {
 			return ((StaxSource) source).getXMLEventReader();
-		}
-		else if (jaxp14Available) {
+		} else if (jaxp14Available) {
 			return Jaxp14StaxHandler.getXMLEventReader(source);
-		}
-		else {
+		} else {
 			throw new IllegalArgumentException("Source '" + source + "' is neither StaxSource nor StAXSource");
 		}
 	}
@@ -235,11 +227,9 @@ public abstract class StaxUtils {
 	public static XMLStreamWriter getXMLStreamWriter(Result result) {
 		if (result instanceof StaxResult) {
 			return ((StaxResult) result).getXMLStreamWriter();
-		}
-		else if (jaxp14Available) {
+		} else if (jaxp14Available) {
 			return Jaxp14StaxHandler.getXMLStreamWriter(result);
-		}
-		else {
+		} else {
 			throw new IllegalArgumentException("Result '" + result + "' is neither StaxResult nor StAXResult");
 		}
 	}
@@ -255,11 +245,9 @@ public abstract class StaxUtils {
 	public static XMLEventWriter getXMLEventWriter(Result result) {
 		if (result instanceof StaxResult) {
 			return ((StaxResult) result).getXMLEventWriter();
-		}
-		else if (jaxp14Available) {
+		} else if (jaxp14Available) {
 			return Jaxp14StaxHandler.getXMLEventWriter(result);
-		}
-		else {
+		} else {
 			throw new IllegalArgumentException("Result '" + result + "' is neither StaxResult nor StAXResult");
 		}
 	}

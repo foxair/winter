@@ -17,6 +17,7 @@
 package com.gm.core.xml;
 
 import java.util.Iterator;
+
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
 import javax.xml.stream.Location;
@@ -51,8 +52,7 @@ class XMLEventStreamReader extends AbstractXMLStreamReader {
 	public boolean isStandalone() {
 		if (event.isStartDocument()) {
 			return ((StartDocument) event).isStandalone();
-		}
-		else {
+		} else {
 			throw new IllegalStateException();
 		}
 	}
@@ -60,8 +60,7 @@ class XMLEventStreamReader extends AbstractXMLStreamReader {
 	public String getVersion() {
 		if (event.isStartDocument()) {
 			return ((StartDocument) event).getVersion();
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
@@ -73,8 +72,7 @@ class XMLEventStreamReader extends AbstractXMLStreamReader {
 	public String getText() {
 		if (event.isCharacters()) {
 			return event.asCharacters().getData();
-		}
-		else {
+		} else {
 			throw new IllegalStateException();
 		}
 	}
@@ -82,8 +80,7 @@ class XMLEventStreamReader extends AbstractXMLStreamReader {
 	public String getPITarget() {
 		if (event.isProcessingInstruction()) {
 			return ((ProcessingInstruction) event).getTarget();
-		}
-		else {
+		} else {
 			throw new IllegalStateException();
 		}
 	}
@@ -91,8 +88,7 @@ class XMLEventStreamReader extends AbstractXMLStreamReader {
 	public String getPIData() {
 		if (event.isProcessingInstruction()) {
 			return ((ProcessingInstruction) event).getData();
-		}
-		else {
+		} else {
 			throw new IllegalStateException();
 		}
 	}
@@ -101,11 +97,9 @@ class XMLEventStreamReader extends AbstractXMLStreamReader {
 		Iterator namespaces;
 		if (event.isStartElement()) {
 			namespaces = event.asStartElement().getNamespaces();
-		}
-		else if (event.isEndElement()) {
+		} else if (event.isEndElement()) {
 			namespaces = event.asEndElement().getNamespaces();
-		}
-		else {
+		} else {
 			throw new IllegalStateException();
 		}
 		return countIterator(namespaces);
@@ -114,8 +108,7 @@ class XMLEventStreamReader extends AbstractXMLStreamReader {
 	public NamespaceContext getNamespaceContext() {
 		if (event.isStartElement()) {
 			return event.asStartElement().getNamespaceContext();
-		}
-		else {
+		} else {
 			throw new IllegalStateException();
 		}
 	}
@@ -123,11 +116,9 @@ class XMLEventStreamReader extends AbstractXMLStreamReader {
 	public QName getName() {
 		if (event.isStartElement()) {
 			return event.asStartElement().getName();
-		}
-		else if (event.isEndElement()) {
+		} else if (event.isEndElement()) {
 			return event.asEndElement().getName();
-		}
-		else {
+		} else {
 			throw new IllegalStateException();
 		}
 	}
@@ -196,8 +187,7 @@ class XMLEventStreamReader extends AbstractXMLStreamReader {
 	public boolean standaloneSet() {
 		if (event.isStartDocument()) {
 			return ((StartDocument) event).standaloneSet();
-		}
-		else {
+		} else {
 			throw new IllegalStateException();
 		}
 	}
@@ -221,8 +211,7 @@ class XMLEventStreamReader extends AbstractXMLStreamReader {
 			Attribute attribute = (Attribute) attributes.next();
 			if (count == index) {
 				return attribute;
-			}
-			else {
+			} else {
 				count++;
 			}
 		}
@@ -233,11 +222,9 @@ class XMLEventStreamReader extends AbstractXMLStreamReader {
 		Iterator namespaces;
 		if (event.isStartElement()) {
 			namespaces = event.asStartElement().getNamespaces();
-		}
-		else if (event.isEndElement()) {
+		} else if (event.isEndElement()) {
 			namespaces = event.asEndElement().getNamespaces();
-		}
-		else {
+		} else {
 			throw new IllegalStateException();
 		}
 		int count = 0;
@@ -245,8 +232,7 @@ class XMLEventStreamReader extends AbstractXMLStreamReader {
 			Namespace namespace = (Namespace) namespaces.next();
 			if (count == index) {
 				return namespace;
-			}
-			else {
+			} else {
 				count++;
 			}
 		}

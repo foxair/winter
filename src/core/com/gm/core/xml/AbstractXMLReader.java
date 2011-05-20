@@ -110,8 +110,7 @@ abstract class AbstractXMLReader implements XMLReader {
 	public Object getProperty(String name) throws SAXNotRecognizedException, SAXNotSupportedException {
 		if ("http://xml.org/sax/properties/lexical-handler".equals(name)) {
 			return lexicalHandler;
-		}
-		else {
+		} else {
 			throw new SAXNotRecognizedException(name);
 		}
 	}
@@ -123,8 +122,7 @@ abstract class AbstractXMLReader implements XMLReader {
 	public void setProperty(String name, Object value) throws SAXNotRecognizedException, SAXNotSupportedException {
 		if ("http://xml.org/sax/properties/lexical-handler".equals(name)) {
 			lexicalHandler = (LexicalHandler) value;
-		}
-		else {
+		} else {
 			throw new SAXNotRecognizedException(name);
 		}
 	}

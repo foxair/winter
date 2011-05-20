@@ -76,52 +76,51 @@ class StaxStreamXMLReader extends AbstractStaxXMLReader {
 		int elementDepth = 0;
 		int eventType = reader.getEventType();
 		while (true) {
-			if (eventType != XMLStreamConstants.START_DOCUMENT && eventType != XMLStreamConstants.END_DOCUMENT &&
-					!documentStarted) {
+			if (eventType != XMLStreamConstants.START_DOCUMENT && eventType != XMLStreamConstants.END_DOCUMENT
+					&& !documentStarted) {
 				handleStartDocument();
 				documentStarted = true;
 			}
 			switch (eventType) {
-				case XMLStreamConstants.START_ELEMENT:
-					elementDepth++;
-					handleStartElement();
-					break;
-				case XMLStreamConstants.END_ELEMENT:
-					elementDepth--;
-					if (elementDepth >= 0) {
-						handleEndElement();
-					}
-					break;
-				case XMLStreamConstants.PROCESSING_INSTRUCTION:
-					handleProcessingInstruction();
-					break;
-				case XMLStreamConstants.CHARACTERS:
-				case XMLStreamConstants.SPACE:
-				case XMLStreamConstants.CDATA:
-					handleCharacters();
-					break;
-				case XMLStreamConstants.START_DOCUMENT:
-					handleStartDocument();
-					documentStarted = true;
-					break;
-				case XMLStreamConstants.END_DOCUMENT:
-					handleEndDocument();
-					documentEnded = true;
-					break;
-				case XMLStreamConstants.COMMENT:
-					handleComment();
-					break;
-				case XMLStreamConstants.DTD:
-					handleDtd();
-					break;
-				case XMLStreamConstants.ENTITY_REFERENCE:
-					handleEntityReference();
-					break;
+			case XMLStreamConstants.START_ELEMENT:
+				elementDepth++;
+				handleStartElement();
+				break;
+			case XMLStreamConstants.END_ELEMENT:
+				elementDepth--;
+				if (elementDepth >= 0) {
+					handleEndElement();
+				}
+				break;
+			case XMLStreamConstants.PROCESSING_INSTRUCTION:
+				handleProcessingInstruction();
+				break;
+			case XMLStreamConstants.CHARACTERS:
+			case XMLStreamConstants.SPACE:
+			case XMLStreamConstants.CDATA:
+				handleCharacters();
+				break;
+			case XMLStreamConstants.START_DOCUMENT:
+				handleStartDocument();
+				documentStarted = true;
+				break;
+			case XMLStreamConstants.END_DOCUMENT:
+				handleEndDocument();
+				documentEnded = true;
+				break;
+			case XMLStreamConstants.COMMENT:
+				handleComment();
+				break;
+			case XMLStreamConstants.DTD:
+				handleDtd();
+				break;
+			case XMLStreamConstants.ENTITY_REFERENCE:
+				handleEntityReference();
+				break;
 			}
 			if (reader.hasNext() && elementDepth >= 0) {
 				eventType = reader.next();
-			}
-			else {
+			} else {
 				break;
 			}
 		}
@@ -191,8 +190,7 @@ class StaxStreamXMLReader extends AbstractStaxXMLReader {
 				}
 				getContentHandler().startElement(qName.getNamespaceURI(), qName.getLocalPart(), toQualifiedName(qName),
 						getAttributes());
-			}
-			else {
+			} else {
 				getContentHandler().startElement("", "", toQualifiedName(qName), getAttributes());
 			}
 		}
@@ -210,8 +208,7 @@ class StaxStreamXMLReader extends AbstractStaxXMLReader {
 					}
 					endPrefixMapping(prefix);
 				}
-			}
-			else {
+			} else {
 				getContentHandler().endElement("", "", toQualifiedName(qName));
 			}
 		}
@@ -219,8 +216,8 @@ class StaxStreamXMLReader extends AbstractStaxXMLReader {
 
 	private void handleCharacters() throws SAXException {
 		if (getContentHandler() != null && reader.isWhiteSpace()) {
-			getContentHandler()
-					.ignorableWhitespace(reader.getTextCharacters(), reader.getTextStart(), reader.getTextLength());
+			getContentHandler().ignorableWhitespace(reader.getTextCharacters(), reader.getTextStart(),
+					reader.getTextLength());
 			return;
 		}
 		if (XMLStreamConstants.CDATA == reader.getEventType() && getLexicalHandler() != null) {
@@ -293,8 +290,7 @@ class StaxStreamXMLReader extends AbstractStaxXMLReader {
 				String qName;
 				if (StringUtils.hasLength(prefix)) {
 					qName = "xmlns:" + prefix;
-				}
-				else {
+				} else {
 					qName = "xmlns";
 				}
 				attributes.addAttribute("", "", qName, "CDATA", namespaceUri);

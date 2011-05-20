@@ -1,4 +1,3 @@
-
 /**
  *
  * Miscellaneous utility classes for XML parsing and transformation,

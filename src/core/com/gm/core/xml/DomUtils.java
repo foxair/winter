@@ -83,7 +83,7 @@ public abstract class DomUtils {
 	 * @see org.w3c.dom.Element#getElementsByTagName
 	 */
 	public static List<Element> getChildElementsByTagName(Element ele, String childEleName) {
-		return getChildElementsByTagName(ele, new String[]{childEleName});
+		return getChildElementsByTagName(ele, new String[] { childEleName });
 	}
 
 	/**

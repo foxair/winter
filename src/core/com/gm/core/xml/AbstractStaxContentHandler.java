@@ -42,8 +42,7 @@ abstract class AbstractStaxContentHandler implements ContentHandler {
 		namespaceContextChanged = false;
 		try {
 			startDocumentInternal();
-		}
-		catch (XMLStreamException ex) {
+		} catch (XMLStreamException ex) {
 			throw new SAXException("Could not handle startDocument: " + ex.getMessage(), ex);
 		}
 	}
@@ -55,8 +54,7 @@ abstract class AbstractStaxContentHandler implements ContentHandler {
 		namespaceContextChanged = false;
 		try {
 			endDocumentInternal();
-		}
-		catch (XMLStreamException ex) {
+		} catch (XMLStreamException ex) {
 			throw new SAXException("Could not handle startDocument: " + ex.getMessage(), ex);
 		}
 	}
@@ -87,8 +85,7 @@ abstract class AbstractStaxContentHandler implements ContentHandler {
 		try {
 			startElementInternal(toQName(uri, qName), atts, namespaceContextChanged ? namespaceContext : null);
 			namespaceContextChanged = false;
-		}
-		catch (XMLStreamException ex) {
+		} catch (XMLStreamException ex) {
 			throw new SAXException("Could not handle startElement: " + ex.getMessage(), ex);
 		}
 	}
@@ -100,8 +97,7 @@ abstract class AbstractStaxContentHandler implements ContentHandler {
 		try {
 			endElementInternal(toQName(uri, qName), namespaceContextChanged ? namespaceContext : null);
 			namespaceContextChanged = false;
-		}
-		catch (XMLStreamException ex) {
+		} catch (XMLStreamException ex) {
 			throw new SAXException("Could not handle endElement: " + ex.getMessage(), ex);
 		}
 	}
@@ -112,8 +108,7 @@ abstract class AbstractStaxContentHandler implements ContentHandler {
 	public final void characters(char ch[], int start, int length) throws SAXException {
 		try {
 			charactersInternal(ch, start, length);
-		}
-		catch (XMLStreamException ex) {
+		} catch (XMLStreamException ex) {
 			throw new SAXException("Could not handle characters: " + ex.getMessage(), ex);
 		}
 	}
@@ -123,8 +118,7 @@ abstract class AbstractStaxContentHandler implements ContentHandler {
 	public final void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
 		try {
 			ignorableWhitespaceInternal(ch, start, length);
-		}
-		catch (XMLStreamException ex) {
+		} catch (XMLStreamException ex) {
 			throw new SAXException("Could not handle ignorableWhitespace:" + ex.getMessage(), ex);
 		}
 	}
@@ -134,8 +128,7 @@ abstract class AbstractStaxContentHandler implements ContentHandler {
 	public final void processingInstruction(String target, String data) throws SAXException {
 		try {
 			processingInstructionInternal(target, data);
-		}
-		catch (XMLStreamException ex) {
+		} catch (XMLStreamException ex) {
 			throw new SAXException("Could not handle processingInstruction: " + ex.getMessage(), ex);
 		}
 	}
@@ -145,8 +138,7 @@ abstract class AbstractStaxContentHandler implements ContentHandler {
 	public final void skippedEntity(String name) throws SAXException {
 		try {
 			skippedEntityInternal(name);
-		}
-		catch (XMLStreamException ex) {
+		} catch (XMLStreamException ex) {
 			throw new SAXException("Could not handle skippedEntity: " + ex.getMessage(), ex);
 		}
 	}
@@ -163,8 +155,7 @@ abstract class AbstractStaxContentHandler implements ContentHandler {
 		int idx = qualifiedName.indexOf(':');
 		if (idx == -1) {
 			return new QName(namespaceUri, qualifiedName);
-		}
-		else {
+		} else {
 			String prefix = qualifiedName.substring(0, idx);
 			String localPart = qualifiedName.substring(idx + 1);
 			return new QName(namespaceUri, localPart, prefix);

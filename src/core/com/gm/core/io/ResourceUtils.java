@@ -23,6 +23,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import org.springframework.util.Log4jConfigurer;
+
 import com.gm.core.lang.StringUtils;
 import com.gm.core.lang.exception.Assert;
 import com.gm.core.lang.reflect.ClassUtils;

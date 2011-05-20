@@ -50,7 +50,6 @@ abstract class AbstractStaxXMLReader extends AbstractXMLReader {
 
 	private static final String IS_STANDALONE_FEATURE_NAME = "http://xml.org/sax/features/is-standalone";
 
-
 	private boolean namespacesFeature = true;
 
 	private boolean namespacePrefixesFeature = false;
@@ -63,19 +62,15 @@ abstract class AbstractStaxXMLReader extends AbstractXMLReader {
 	public boolean getFeature(String name) throws SAXNotRecognizedException, SAXNotSupportedException {
 		if (NAMESPACES_FEATURE_NAME.equals(name)) {
 			return this.namespacesFeature;
-		}
-		else if (NAMESPACE_PREFIXES_FEATURE_NAME.equals(name)) {
+		} else if (NAMESPACE_PREFIXES_FEATURE_NAME.equals(name)) {
 			return this.namespacePrefixesFeature;
-		}
-		else if (IS_STANDALONE_FEATURE_NAME.equals(name)) {
+		} else if (IS_STANDALONE_FEATURE_NAME.equals(name)) {
 			if (this.isStandalone != null) {
 				return this.isStandalone;
-			}
-			else {
+			} else {
 				throw new SAXNotSupportedException("startDocument() callback not completed yet");
 			}
-		}
-		else {
+		} else {
 			return super.getFeature(name);
 		}
 	}
@@ -84,11 +79,9 @@ abstract class AbstractStaxXMLReader extends AbstractXMLReader {
 	public void setFeature(String name, boolean value) throws SAXNotRecognizedException, SAXNotSupportedException {
 		if (NAMESPACES_FEATURE_NAME.equals(name)) {
 			this.namespacesFeature = value;
-		}
-		else if (NAMESPACE_PREFIXES_FEATURE_NAME.equals(name)) {
+		} else if (NAMESPACE_PREFIXES_FEATURE_NAME.equals(name)) {
 			this.namespacePrefixesFeature = value;
-		}
-		else {
+		} else {
 			super.setFeature(name, value);
 		}
 	}
@@ -122,12 +115,10 @@ abstract class AbstractStaxXMLReader extends AbstractXMLReader {
 		String prefix = qName.getPrefix();
 		if (!StringUtils.hasLength(prefix)) {
 			return qName.getLocalPart();
-		}
-		else {
+		} else {
 			return prefix + ":" + qName.getLocalPart();
 		}
 	}
-
 
 	/**
 	 * Parse the StAX XML reader passed at construction-time.
@@ -152,8 +143,7 @@ abstract class AbstractStaxXMLReader extends AbstractXMLReader {
 	private void parse() throws SAXException {
 		try {
 			parseInternal();
-		}
-		catch (XMLStreamException ex) {
+		} catch (XMLStreamException ex) {
 			Locator locator = null;
 			if (ex.getLocation() != null) {
 				locator = new StaxLocator(ex.getLocation());
@@ -161,8 +151,7 @@ abstract class AbstractStaxXMLReader extends AbstractXMLReader {
 			SAXParseException saxException = new SAXParseException(ex.getMessage(), locator, ex);
 			if (getErrorHandler() != null) {
 				getErrorHandler().fatalError(saxException);
-			}
-			else {
+			} else {
 				throw saxException;
 			}
 		}

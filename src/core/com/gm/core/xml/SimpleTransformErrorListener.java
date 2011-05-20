@@ -19,7 +19,6 @@ package com.gm.core.xml;
 import javax.xml.transform.ErrorListener;
 import javax.xml.transform.TransformerException;
 
-
 /**
  * Simple <code>javax.xml.transform.ErrorListener</code> implementation:
  * logs warnings using the given Commons Logging logger instance,
@@ -29,7 +28,6 @@ import javax.xml.transform.TransformerException;
  * @since 1.2
  */
 public class SimpleTransformErrorListener implements ErrorListener {
-
 
 	public void warning(TransformerException ex) throws TransformerException {
 		ex.printStackTrace();

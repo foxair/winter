@@ -56,8 +56,7 @@ class DomContentHandler implements ContentHandler {
 		this.node = node;
 		if (node instanceof Document) {
 			document = (Document) node;
-		}
-		else {
+		} else {
 			document = node.getOwnerDocument();
 		}
 		Assert.notNull(document, "document must not be null");
@@ -66,8 +65,7 @@ class DomContentHandler implements ContentHandler {
 	private Node getParent() {
 		if (!elements.isEmpty()) {
 			return elements.get(elements.size() - 1);
-		}
-		else {
+		} else {
 			return node;
 		}
 	}
@@ -97,8 +95,7 @@ class DomContentHandler implements ContentHandler {
 		Node lastChild = parent.getLastChild();
 		if (lastChild != null && lastChild.getNodeType() == Node.TEXT_NODE) {
 			((Text) lastChild).appendData(data);
-		}
-		else {
+		} else {
 			Text text = document.createTextNode(data);
 			parent.appendChild(text);
 		}

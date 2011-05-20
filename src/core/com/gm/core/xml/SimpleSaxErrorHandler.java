@@ -30,8 +30,6 @@ import org.xml.sax.SAXParseException;
  */
 public class SimpleSaxErrorHandler implements ErrorHandler {
 
-
-
 	public void warning(SAXParseException ex) throws SAXException {
 		ex.printStackTrace();
 	}

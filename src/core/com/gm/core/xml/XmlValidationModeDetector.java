@@ -54,7 +54,6 @@ public class XmlValidationModeDetector {
 	 */
 	public static final int VALIDATION_XSD = 3;
 
-
 	/**
 	 * The token in a XML document that declares the DTD to use for validation
 	 * and thus that DTD validation is being used.
@@ -71,12 +70,10 @@ public class XmlValidationModeDetector {
 	 */
 	private static final String END_COMMENT = "-->";
 
-
 	/**
 	 * Indicates whether or not the current parse position is inside an XML comment.
 	 */
 	private boolean inComment;
-
 
 	/**
 	 * Detect the validation mode for the XML document in the supplied {@link InputStream}.
@@ -107,17 +104,14 @@ public class XmlValidationModeDetector {
 				}
 			}
 			return (isDtdValidated ? VALIDATION_DTD : VALIDATION_XSD);
-		}
-		catch (CharConversionException ex) {
+		} catch (CharConversionException ex) {
 			// Choked on some character encoding...
 			// Leave the decision up to the caller.
 			return VALIDATION_AUTO;
-		}
-		finally {
+		} finally {
 			reader.close();
 		}
 	}
-
 
 	/**
 	 * Does the content contain the the DTD DOCTYPE declaration?
@@ -136,7 +130,8 @@ public class XmlValidationModeDetector {
 			return false;
 		}
 		int openTagIndex = content.indexOf('<');
-		return (openTagIndex > -1 && content.length() > openTagIndex && Character.isLetter(content.charAt(openTagIndex + 1)));
+		return (openTagIndex > -1 && content.length() > openTagIndex && Character.isLetter(content
+				.charAt(openTagIndex + 1)));
 	}
 
 	/**
@@ -185,7 +180,7 @@ public class XmlValidationModeDetector {
 	 */
 	private int commentToken(String line, String token, boolean inCommentIfPresent) {
 		int index = line.indexOf(token);
-		if (index > - 1) {
+		if (index > -1) {
 			this.inComment = inCommentIfPresent;
 		}
 		return (index == -1 ? index : index + token.length());

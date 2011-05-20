@@ -117,7 +117,8 @@ class StaxEventContentHandler extends AbstractStaxContentHandler {
 			throws XMLStreamException {
 		List attributes = getAttributes(atts);
 		List namespaces = createNamespaces(namespaceContext);
-		consumeEvent(eventFactory.createStartElement(name, attributes.iterator(), namespaces != null ? namespaces.iterator() : null));
+		consumeEvent(eventFactory.createStartElement(name, attributes.iterator(),
+				namespaces != null ? namespaces.iterator() : null));
 	}
 
 	@Override

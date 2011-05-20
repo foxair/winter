@@ -10,6 +10,8 @@ import org.junit.Test;
 
 import com.gm.common.orm.mybatis.Page;
 import com.gm.common.orm.mybatis.QueryRequest;
+import com.gm.common.orm.mybatis.query.Compare;
+import com.gm.common.orm.mybatis.query.Condition;
 import com.gm.common.orm.mybatis.query.Orders;
 import com.gm.common.test.BaseServiceTestCase;
 import com.gm.demo.model.Contact;
@@ -98,7 +100,10 @@ public class DemoTest extends BaseServiceTestCase {
 	@Test
 	public void getCusPage() {
 		QueryRequest<Customer> queryRequest = new QueryRequest<Customer>(Customer.class);
-		queryRequest.addOrder(Orders.asc(Customer.CUS_NO));
+		queryRequest.addOrder(Orders.asc(Customer.CUS_NO));//添加排序
+		queryRequest.addOrder(Orders.desc(Customer.CREATE_TIME));//添加排序
+		//设置一个查询条件
+		queryRequest.setCondition(Customer.CUS_CHN_NAME, Condition.AND, Compare.like, "%joe%");
 		queryRequest.setPageSize(50);
 		Page<Customer> page = customerManager.findCusListPage(queryRequest);
 		List<Customer> cusList = page.getResult();
