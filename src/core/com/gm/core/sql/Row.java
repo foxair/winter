@@ -27,8 +27,6 @@ import com.gm.core.lang.NumberUtils;
  * <p>
  * String columns and values mapping.
  * </p>
- * 
- * 
  */
 public class Row {
 
