@@ -1,13 +1,16 @@
 package com.gm.common.cache;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
 
-public interface Cache {
+public interface CacheManager {
 
 	int getSize();
 
-	void set(Object key, Object value);
+	void put(Object key, Object value);
+
+	void addMap(Map<?, ?> elements);
 
 	/**
 	 * Replace the cached element only if an Element is currently cached for this key
@@ -31,7 +34,9 @@ public interface Cache {
 
 	ReadWriteLock getLock();
 
-	List getAll();
+	List<?> getAll();
 
-	List getByKeys();
+	List<?> getByKeys(List<?> keys);
+
+	List<?> getByKeys(Object[] keys);
 }
